@@ -31,8 +31,10 @@ repeats = N_SEQ // len(letters_4)
 rem = N_SEQ % len(letters_4)
 original_sequences.append("".join(letters_4 * repeats + letters_4[:rem]))
 
-chars_5 = list(student_surname[:2]) + list(group_student)
-s5_list = [random.choice(chars_5) for _ in range(N_SEQ)]
+chars_5 = list(set(student_surname[:2] + group_student))
+
+s5_list = chars_5 * 20
+random.shuffle(s5_list)
 original_sequences.append("".join(s5_list))
 
 letters_6 = list(student_surname[:2])
