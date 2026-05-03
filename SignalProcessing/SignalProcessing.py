@@ -1,103 +1,117 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import signal as sp_signal
-import os
+import random
+from abc import ABC, abstractmethod
 
 
-os.makedirs("figures", exist_ok=True)
+class RockPaperScissors(ABC):
+    """
+            Ініціалізує гру з динамічним набором варіантів та генерує правила.
+    """
+    def __init__(self, options):
+        self.options = options
+        self.rules = self._generate_rules(options)
+
+    def _generate_rules(self, options):
+        """
+                Математично вираховує, хто кого перемагає, базуючись на позиціях у списку.
+                Використовує алгоритм 'половини' для створення збалансованого ігрового циклу.
+        """
+        rules = {}
+        n = len(options)
+        for i in range(n):
+
+            current = options[i]
+            reordered = options[i + 1:] + options[:i]
+
+            half = len(reordered) // 2
+            winning_against_current = reordered[:half]
+            rules[current] = winning_against_current
+        return rules
+
+    @abstractmethod
+    def get_bot_move(self):
+        pass
 
 
-n = 500
-Fs = 1000
-F_max_pr2 = 13
-
-t = np.arange(n) / Fs
+class DynamicBot(RockPaperScissors):
+    def get_bot_move(self):
+        return random.choice(self.options)
 
 
-raw_noise = np.random.normal(0, 10, n)
-w_initial = F_max_pr2 / (Fs / 2)
-sos_initial = sp_signal.butter(3, w_initial, 'low', output='sos')
+class Game:
+    """
+            Ініціалізує ігровий процес з вибраним ботом та початковим рейтингом гравця.
+            Встановлює стан гри на очікування введення користувача.
+    """
+    def __init__(self, bot: RockPaperScissors, score: int):
+        self.bot = bot
+        self.score = score
 
-signal_from_pr2 = sp_signal.sosfiltfilt(sos_initial, raw_noise)
+    def get_safe_input(self, prompt=""):
+        while True:
+            user_input = input(prompt).strip()
+            if user_input == "!exit":
+                print("Bye!")
+                exit()
+            elif user_input == "!rating":
+                print(f"Your rating: {self.score}")
+                continue
 
+            if user_input in self.bot.options:
+                return user_input
+            else:
+                print("Invalid input")
 
-fig, ax = plt.subplots(figsize=(21 / 2.54, 14 / 2.54))
-ax.plot(t, signal_from_pr2)
-ax.set_xlabel("Час (с)")
-ax.set_ylabel("Амплітуда")
-ax.set_title(f"Сигнал(відфільтрований ФНЧ, Fmax = {F_max_pr2} Гц)")
-fig.savefig("figures/Вихідний сигнал.png", dpi=600)
-plt.close(fig)
+    def run(self):
+        user_move = self.get_safe_input("> ")
+        bot_move = self.bot.get_bot_move()
 
+        if user_move == bot_move:
+            print(f"There is a draw ({bot_move})")
+            self.score += 50
+        elif bot_move in self.bot.rules[user_move]:
 
-quantized_signals = []
-dispersions = []
-snr_list = []
+            print(f"Sorry, but the computer chose {bot_move}")
+        else:
 
-
-signal_power = np.mean(signal_from_pr2 ** 2)
-
-for M in [4, 16, 64, 256]:
-    bits = []
-
-
-    s_min, s_max = np.min(signal_from_pr2), np.max(signal_from_pr2)
-    delta = (s_max - s_min) / (M - 1)
-
-
-    quantize_signal = delta * np.round((signal_from_pr2 - s_min) / delta) + s_min
-
-
-    quantize_levels = np.linspace(s_min, s_max, M)
-    num_bits = int(np.log2(M))
-    quantize_bit = [format(b, '0' + str(num_bits) + 'b') for b in range(M)]
-
-
-    quantize_table = np.c_[np.round(quantize_levels, 3), quantize_bit]
-    fig, ax = plt.subplots(figsize=(14 / 2.54, max(4, M / 4) / 2.54))
-    table = ax.table(cellText=quantize_table, colLabels=["Значення", "Код"], loc="center")
-    table.set_fontsize(10)
-    ax.axis("off")
-    ax.set_title(f"Таблиця квантування M = {M}")
-    fig.savefig(f"figures/Таблиця_квантування_{M}.png", dpi=300, bbox_inches="tight")
-    plt.close(fig)
+            print(f"Well done. The computer chose {bot_move} and failed")
+            self.score += 100
 
 
-    error = signal_from_pr2 - quantize_signal
-    dispersion = np.mean(error ** 2)
-    snr = signal_power / dispersion if dispersion > 0 else 0
+def main():
 
-    dispersions.append(dispersion)
-    snr_list.append(snr)
-    quantized_signals.append((M, quantize_signal))
+    name = input("Enter your name: ")
+    print(f"Hello, {name}")
 
 
 
 
-fig, axes = plt.subplots(4, 1, figsize=(21 / 2.54, 28 / 2.54), sharex=True)
-for ax, (M, qs) in zip(axes, quantized_signals):
-    ax.plot(t, signal_from_pr2, color='gray', alpha=0.3, label='Оригінал')
-    ax.step(t, qs, linewidth=0.7, label=f'M={M}')
-    ax.set_ylabel("Амплітуда")
-    ax.legend(loc='upper right', fontsize=8)
-axes[-1].set_xlabel("Час (с)")
-fig.suptitle("Квантування відфільтрованого сигналу", fontsize=12)
-fig.tight_layout()
-fig.savefig("figures/Квантовані сигнали.png", dpi=600)
-plt.close(fig)
+    user_score = 0
+    try:
+        with open("rating.txt", "r", encoding="utf-8") as file:
+            for line in file:
+                parts = line.split()
+                if parts and parts[0] == name:
+                    user_score = int(parts[1])
+                    break
+    except FileNotFoundError:
+        pass
 
 
-M_values = [4, 16, 64, 256]
-fig, ax = plt.subplots(figsize=(14 / 2.54, 10 / 2.54))
-ax.plot(M_values, snr_list, marker="o", color="tab:orange")
-ax.set_xlabel("Кількість рівнів M")
-ax.set_ylabel("SNR (лін.)")
-ax.set_xscale("log", base=2)
-ax.set_xticks(M_values)
-ax.set_xticklabels(M_values)
-ax.grid(True, which='both', linestyle='--', alpha=0.5)
-ax.set_title("Залежність SNR від M ")
-fig.savefig("figures/Залежність_SNR_від_M.png", dpi=600)
-plt.close(fig)
+    raw_options = input().strip()
+    if not raw_options:
+        options = ["rock", "paper", "scissors"]
+    else:
+        options = raw_options.split(",")
 
-print("Інтеграція завершена. Перевірте папку /figures/")
+    print("Okay, let's start")
+
+
+    bot = DynamicBot(options)
+    game = Game(bot, user_score)
+
+    while True:
+        game.run()
+
+
+if __name__ == '__main__':
+    main()
