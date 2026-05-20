@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="43a3a723-ba33-4639-a75e-f4f37eac90e0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HammingCode/HammingCode.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HammingCode/results_hamming.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HammingCode/sequence.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modulation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,32 +40,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.7prac.executor&quot;: &quot;Run&quot;,
-    &quot;Python.HammingCode.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SignalProcessing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.lesscompression_jpeg.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.prac8.executor&quot;: &quot;Run&quot;,
-    &quot;Python.prac9.executor&quot;: &quot;Run&quot;,
-    &quot;Python.rlelzwcompression.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sequence.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/js/TIC_Liubarskij_519st/HammingCode&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.7prac.executor": "Run",
+    "Python.HammingCode.executor": "Run",
+    "Python.Modulation.executor": "Run",
+    "Python.SignalProcessing.executor": "Run",
+    "Python.lesscompression_jpeg.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.prac8.executor": "Run",
+    "Python.prac9.executor": "Run",
+    "Python.rlelzwcompression.executor": "Run",
+    "Python.sequence.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "ChannelCoding",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/js/TIC_Liubarskij_519st/HammingCode",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\js\TIC_Liubarskij_519st\HammingCode" />
@@ -135,6 +137,8 @@
       <workItem from="1778427640969" duration="26000" />
       <workItem from="1778700456951" duration="5938000" />
       <workItem from="1779276377245" duration="2274000" />
+      <workItem from="1779278949940" duration="825000" />
+      <workItem from="1779301311762" duration="357000" />
     </task>
     <servers />
   </component>
